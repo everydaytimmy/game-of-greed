@@ -1,5 +1,32 @@
 import random
 
+scoresheet = {
+  '1': {'1': 100, '2': 200, '3': 1000, '4': 2000, '5': 3000, '6': 4000},
+  '2': {'1': 0, '2': 0, '3': 200, '4': 400, '5': 600, '6': 800},
+  '3': {'1': 0, '2': 0, '3': 300, '4': 600, '5': 900, '6': 1200},
+  '4': {'1': 0, '2': 0, '3': 400, '4': 800,'5': 1200, '6': 1600},
+  '5': {'1': 50, '2': 100, '3': 500, '4': 1000,'5': 1500, '6': 2000},
+  '6': {'1': 0, '2': 0, '3': 600, '4': 1200,'5': 1800, '6': 2400},
+  'special': {'straight': 1500, 'three pair': 1500}
+}
+
+class Banker:
+  def __init__(self):
+    self.balance = 0
+    self.shelved = 0
+
+  def shelf(self, num):
+    self.shelved += num
+
+  def bank(self):
+    deposit = self.shelved
+    self.balance += deposit
+    self.shelved = 0
+    return deposit
+    
+  def clear_shelf(self):
+    self.shelved = 0
+    return self.shelved
 
 class GameLogic:
 
@@ -11,56 +38,30 @@ class GameLogic:
       dice -= 1
     return total
 
-class Banker:
-  def __init__(self):
-    self.balance = 0
-    self.shelved = 0
-  def shelf(self, num):
-    self.shelved += num
-  def bank(self):
-    deposit = self.shelved
-    self.balance += deposit
-    self.shelved = 0
-    return deposit
-  def clear_shelf(self):
-    self.shelved = 0
-    return self.shelved
-
-
   @staticmethod
-  def calculate_score(score):
+  def calculate_score(dice):
     counter = 0
-    if score.count(5) == 3:
-      counter += 500
-    if score.count(1) == 3:
-      counter += 1000
-    if score.count(1) == 6:
-      counter += 4000
-    if score.count(2) > 2:
-      pass
-    if score.count(2) == 4:
-      counter += 400
-    if score.count(2) == 5:
-      counter += 600
-    if score.count(2) == 6:
-      counter += 800
-    if score.count(1) == 6:
-      counter += 4000
-    s = sorted(list(score))
-    if s == [1,2,3,4,5,6]:
-      counter += 1500
-    for num in score:
-      occurrence_of_num = score.count(num)
-      if occurrence_of_num <= 2:
-        for num in score:
-          if (num == 5) and not(score.count(5) >= 3) and not(sorted(list(score)) == [1,2,3,4,5,6]):
-            counter += num*10
-          if (num == 1) and not(score.count(1) >= 3) and not(sorted(list(score)) == [1,2,3,4,5,6]) and not(score.count(1) == 6):
-            counter += num * 100
-      else:
-        amount = num *100
-        # for each occurrence about 3, add the amount
-        for _ in range(3,occurrence_of_num):
-          amount += num*100
-        counter += amount
+    occurrences = {}
+
+    for num in dice:
+      times_rolled = dice.count(num)
+      occurrences[num] = times_rolled
+
+    # first, check for special cases
+    if sorted(dice) == [1,2,3,4,5,6]:
+      counter += scoresheet['special']['straight']
+      return counter
+
+    keys = list(occurrences.keys())
+    if len(keys) == 3:
+      if (occurrences[keys[0]] == 2) and (occurrences[keys[1]] == 2) and (occurrences[keys[2]] == 2):
+        counter += scoresheet['special']['three pair']
+        return counter
+
+    # then check for regular scores
+    for num in occurrences:
+      counter += scoresheet[str(num)][str(occurrences[num])]
+
+# for every iteration above 3, the 100 * the number is added to the amount
+
     return counter
