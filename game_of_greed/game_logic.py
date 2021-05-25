@@ -23,7 +23,7 @@ class Banker:
     self.balance += deposit
     self.shelved = 0
     return deposit
-    
+
   def clear_shelf(self):
     self.shelved = 0
     return self.shelved
@@ -61,7 +61,5 @@ class GameLogic:
     # then check for regular scores
     for num in occurrences:
       counter += scoresheet[str(num)][str(occurrences[num])]
-
-# for every iteration above 3, the 100 * the number is added to the amount
 
     return counter
