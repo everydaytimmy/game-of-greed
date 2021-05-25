@@ -3,7 +3,6 @@ import random
 
 class GameLogic:
 
-
   def roll_dice(dice):
     total = []
     while dice > 0:
@@ -27,7 +26,7 @@ class Banker:
     self.shelved = 0
     return self.shelved
 
-class GameLogic:
+
   @staticmethod
   def calculate_score(score):
     counter = 0
