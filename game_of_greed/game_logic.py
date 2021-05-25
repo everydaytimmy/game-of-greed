@@ -36,7 +36,7 @@ class GameLogic:
       roll = random.randint(1, 6)
       total.append(roll)
       dice -= 1
-    return total
+    return tuple(total)
 
   @staticmethod
   def calculate_score(dice):
