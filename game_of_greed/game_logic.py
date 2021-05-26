@@ -63,3 +63,18 @@ class GameLogic:
       counter += scoresheet[str(num)][str(occurrences[num])]
 
     return counter
+
+  @staticmethod
+  def get_scorers(dice):
+    occurrences = {}
+    scoring_dice = []
+
+    for num in dice:
+      times_rolled = dice.count(num)
+      occurrences[num] = times_rolled
+
+    for num in occurrences:
+      if scoresheet[str(num)][str(occurrences[num])]:
+        scoring_dice.append(num)
+      
+    return tuple(scoring_dice)
