@@ -76,5 +76,24 @@ class GameLogic:
     for num in occurrences:
       if scoresheet[str(num)][str(occurrences[num])]:
         scoring_dice.append(num)
+
+    keys = list(occurrences.keys())
+    if isinstance(keys, list):
+      if len(keys) == 3:
+        if (occurrences[keys[0]] == 2) and (occurrences[keys[1]] == 2) and (occurrences[keys[2]] == 2):
+          return 'three pair'
+
+    if (isinstance(keys, int)) and (len(occurrences[str(keys)]) == 6):
+      return 'six of a kind'
       
     return tuple(scoring_dice)
+
+  @staticmethod
+  def validate_keepers(roll, keepers):
+    
+    for num in keepers:
+      if str(num).isnumeric():
+        if keepers.count(num) > roll.count(int(num)):
+          return False
+
+    return True
