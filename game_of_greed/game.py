@@ -62,10 +62,10 @@ class Game:
                     
             print('Enter dice to keep, or (q)uit:')
             user_input = self.validate(dice_roll)
+            scoring_dice = GameLogic.get_scorers(dice_roll)
                     
-            if GameLogic.get_scorers(dice_roll) == 'three pair':
+            if (scoring_dice == 'three pair') or (scoring_dice == 'straight') or (scoring_dice == 'six of a kind'):
                 self.hot_dice(dice_roll)
-                dice_count = 6
                 print('(r)oll again, (b)ank your points or (q)uit:')
                 user_input = input('> ')
                 
@@ -75,17 +75,8 @@ class Game:
                 
                 if user_input == 'r':
                     continue
-                
-                if user_input == 'b':
-                    rolling = False
-                    banked = self.banker.bank()
-                    print(f'You banked {banked} points in round {self.round_num}')
-                    print(f'Total score is {self.banker.balance} points')
-                    return
-                
 
             if user_input.replace(' ', '').isnumeric():
-                # user_input = self.validate(dice_roll)
                 score = GameLogic.calculate_score(dice_roll)
                 self.banker.shelf(score)
                 for die in dice_roll:
