@@ -75,6 +75,13 @@ class Game:
                 
                 if user_input == 'r':
                     continue
+                
+                if user_input == 'b':
+                    rolling = False
+                    banked = self.banker.bank()
+                    print(f'You banked {banked} points in round {self.round_num}')
+                    print(f'Total score is {self.banker.balance} points')
+                    return
 
             if user_input.replace(' ', '').isnumeric():
                 score = GameLogic.calculate_score(dice_roll)
@@ -121,12 +128,8 @@ class Game:
         
         if play_game == 'y':
             self.round_num += 1
-            playing = True
-            while (self.round_num <= self.num_rounds) and playing:                
-                res = self.play_round()
-                if res == 'quit':
-                    playing = False
-                    
+            while (self.round_num <= self.num_rounds):                
+                self.play_round()  
                 self.round_num += 1
 
                     
