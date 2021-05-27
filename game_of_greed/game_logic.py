@@ -90,8 +90,10 @@ class GameLogic:
 
   @staticmethod
   def validate_keepers(roll, keepers):
+    
     for num in keepers:
-      if keepers.count(num) > roll.count(int(num)):
-        return False
+      if str(num).isnumeric():
+        if keepers.count(num) > roll.count(int(num)):
+          return False
 
     return True
