@@ -16,12 +16,8 @@ class Game:
         
         
     def roll_and_validate(self, dice_count):
-        print(f'Rolling {dice_count} dice...')
-        dice_count = dice_count
         dice_roll = list(self.roller(dice_count))
         user_input = self.validate(dice_roll)
-        if user_input == 'quit':
-            return 'quit'
         return (dice_roll, user_input)
         
     def validate(self, dice_roll):
@@ -32,8 +28,7 @@ class Game:
             user_input = input('> ')
             if user_input == 'q':
                 print(f'Thanks for playing. You earned {self.banker.balance} points')
-                return 'quit'
-            # print(self.banker.shelved)
+                sys.exit()
             is_valid = GameLogic.validate_keepers(dice_roll, list(user_input.replace(' ', '')))
             if is_valid:
                 validating = False
@@ -50,23 +45,38 @@ class Game:
     def play_round(self):
         dice_count = 6
         print(f'Starting round {self.round_num}')
-    
-        ret = self.roll_and_validate(dice_count)
-        if ret == 'quit':
-            return 'quit'
-        else: dice_roll, user_input = ret
-                
-        if GameLogic.get_scorers(dice_roll) == 'three pair':
-            self.hot_dice(dice_roll)
-            dice_count = 6
-            # print(f'You have {self.banker.shelved} unbanked points and {dice_count} dice remaining')         
-            print('(r)oll again, (b)ank your points or (q)uit:')
-            user_input = input('> ')
-            if user_input == 'r':
-                ret = self.roll_and_validate(dice_count)
-                if ret == 'quit':
-                    return 'quit'
-                else: dice_roll, user_input = ret
+        rolling = True
+        while rolling:
+            print(f'Rolling {dice_count} dice...')
+            dice_roll, user_input = self.roll_and_validate(dice_count)
+                    
+            if GameLogic.get_scorers(dice_roll) == 'three pair':
+                self.hot_dice(dice_roll)
+                dice_count = 6
+                print('(r)oll again, (b)ank your points or (q)uit:')
+                user_input = input('> ')
+                if user_input == 'r':
+                    continue
+                if user_input == 'b':
+                    rolling = False
+                    banked = self.banker.bank()
+                    print(f'You banked {banked} points in round {self.round_num}')
+                    print(f'Total score is {self.banker.balance} points')
+                    # dice_roll, user_input = self.roll_and_validate(dice_count)
+                if user_input.isnumeric():
+                    score = GameLogic.calculate_score(dice_roll)
+                    self.banker.shelf(score)
+                    for die in dice_roll:
+                        if str(die) in user_input:
+                            dice_count -= 1
+                    print(f'You have {self.banker.shelved} unbanked points and {dice_count} dice remaining')
+                    print('(r)oll again, (b)ank your points or (q)uit:')
+                    user_input = input('> ')
+                    if user_input == 'r':
+                        continue
+                    # if user_input 
+            
+            if user_input.isnumeric():
                 score = GameLogic.calculate_score(dice_roll)
                 self.banker.shelf(score)
                 for die in dice_roll:
@@ -74,16 +84,20 @@ class Game:
                         dice_count -= 1
                 print(f'You have {self.banker.shelved} unbanked points and {dice_count} dice remaining')
                 print('(r)oll again, (b)ank your points or (q)uit:')
-                user_input = input('> ')
-                if user_input == 'b':
-                    self.banker.bank()
-                    print(f'You banked {self.banker.balance} points in round {self.round_num}')
-                    print(f'Total score is {self.banker.balance} points')
-                    return
-            if user_input == 'b':
-                banked = self.banker.bank()
-                print(f'You banked {banked} points in round {self.round_num}')
-                print(f'Total score is {self.banker.balance} points')
+                    
+                    # score = GameLogic.calculate_score(dice_roll)
+                    # self.banker.shelf(score)
+                    # for die in dice_roll:
+                    #     if str(die) in user_input:
+                    #         dice_count -= 1
+                    # print(f'You have {self.banker.shelved} unbanked points and {dice_count} dice remaining')
+                    # print('(r)oll again, (b)ank your points or (q)uit:')
+                    # user_input = input('> ')
+                    # if user_input == 'b':
+                    #     self.banker.bank()
+                    #     print(f'You banked {self.banker.balance} points in round {self.round_num}')
+                    #     print(f'Total score is {self.banker.balance} points')
+                    #     return
         else:
             score = GameLogic.calculate_score(dice_roll)
             self.banker.shelf(score)
