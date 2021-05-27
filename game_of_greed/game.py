@@ -62,10 +62,10 @@ class Game:
                     
             print('Enter dice to keep, or (q)uit:')
             user_input = self.validate(dice_roll)
+            scoring_dice = GameLogic.get_scorers(dice_roll)
                     
-            if GameLogic.get_scorers(dice_roll) == 'three pair':
+            if (scoring_dice == 'three pair') or (scoring_dice == 'straight') or (scoring_dice == 'six of a kind'):
                 self.hot_dice(dice_roll)
-                dice_count = 6
                 print('(r)oll again, (b)ank your points or (q)uit:')
                 user_input = input('> ')
                 
@@ -82,10 +82,8 @@ class Game:
                     print(f'You banked {banked} points in round {self.round_num}')
                     print(f'Total score is {self.banker.balance} points')
                     return
-                
 
             if user_input.replace(' ', '').isnumeric():
-                # user_input = self.validate(dice_roll)
                 score = GameLogic.calculate_score(dice_roll)
                 self.banker.shelf(score)
                 for die in dice_roll:
@@ -130,13 +128,10 @@ class Game:
         
         if play_game == 'y':
             self.round_num += 1
-            playing = True
-            while (self.round_num <= self.num_rounds) and playing:                
-                res = self.play_round()
-                if res == 'quit':
-                    playing = False
-                    
+            while (self.round_num <= self.num_rounds):                
+                self.play_round()  
                 self.round_num += 1
+            print(f'Thanks for playing. You earned {self.banker.balance} points')
 
                     
                 
