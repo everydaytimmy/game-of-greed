@@ -131,6 +131,7 @@ class Game:
             while (self.round_num <= self.num_rounds):                
                 self.play_round()  
                 self.round_num += 1
+            print(f'Thanks for playing. You earned {self.banker.balance} points')
 
                     
                 
