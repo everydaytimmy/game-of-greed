@@ -138,16 +138,23 @@ class NervousNellie(BaseBot):
 class YourBot(BaseBot):
     def _roll_bank_or_quit(self):
         """your logic here"""
-        return "b"
+        if self.unbanked_points >= 2000:
+            return 'b'
+        return "r"
 
     def _enter_dice(self):
         """simulate user entering which dice to keep.
         Defaults to all scoring dice"""
 
-        return super()._enter_dice()
+        scorers = GameLogic.get_scorers(self.last_roll)
+        return_string = ''
+        for die in scorers:
+            if die == 1:
+                return_string += str(die)
+        return return_string
 
 
 if __name__ == "__main__":
     num_games = 100
-    NervousNellie.play(num_games)
+    # NervousNellie.play(num_games)
     YourBot.play(num_games)
