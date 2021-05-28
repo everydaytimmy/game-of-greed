@@ -24,7 +24,7 @@ class Game:
                 print(f'Thanks for playing. You earned {self.banker.balance} points')
                 sys.exit()
             is_valid = GameLogic.validate_keepers(dice_roll, list(user_input.replace(' ', '')))
-            if is_valid and (user_input != ''):
+            if is_valid:
                 validating = False
                 return user_input
             else:
