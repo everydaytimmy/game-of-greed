@@ -76,13 +76,8 @@ class GameLogic:
     for num in occurrences:
       if scoresheet[str(num)][str(occurrences[num])]:
         scoring_dice.append(num)
-    
-    keys = list(occurrences.keys())    
-    if isinstance(keys, list):
-      if sorted(keys) == [1,2,3,4,5,6]:
-        return 'straight'
 
-    
+    keys = list(occurrences.keys())
     if isinstance(keys, list):
       if len(keys) == 3:
         if (occurrences[keys[0]] == 2) and (occurrences[keys[1]] == 2) and (occurrences[keys[2]] == 2):
