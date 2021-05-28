@@ -24,7 +24,7 @@ class Game:
                 print(f'Thanks for playing. You earned {self.banker.balance} points')
                 sys.exit()
             is_valid = GameLogic.validate_keepers(dice_roll, list(user_input.replace(' ', '')))
-            if is_valid:
+            if is_valid and (user_input != ''):
                 validating = False
                 return user_input
             else:
@@ -56,8 +56,8 @@ class Game:
                 print('****************************************')
                 print('**        Zilch!!! Round over         **')
                 print('****************************************')
-                print('You banked 0 points in round 1')
-                print('Total score is 0 points')
+                print(f'You banked 0 points in round {self.round_num}')
+                print(f'Total score is {self.banker.balance} points')
                 return
                     
             print('Enter dice to keep, or (q)uit:')
