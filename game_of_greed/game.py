@@ -133,7 +133,9 @@ class Game:
                 self.round_num += 1
             print(f'Thanks for playing. You earned {self.banker.balance} points')
 
-                    
+if __name__ == "__main__":
+    game = Game()
+    game.play()    
                 
                 
                 
