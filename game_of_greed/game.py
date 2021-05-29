@@ -84,7 +84,7 @@ class Game:
                     return
 
             if user_input.replace(' ', '').isnumeric():
-                score = GameLogic.calculate_score(list(user_input))
+                score = GameLogic.calculate_score(list(user_input))# list(user_input)
                 self.banker.shelf(score)
                 for die in dice_roll:
                     if str(die) in user_input:
