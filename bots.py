@@ -156,5 +156,5 @@ class YourBot(BaseBot):
 
 if __name__ == "__main__":
     num_games = 1000
-    # NervousNellie.play(num_games)
+    NervousNellie.play(num_games)
     YourBot.play(num_games)
