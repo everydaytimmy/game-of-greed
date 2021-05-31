@@ -5,24 +5,19 @@ from game_of_greed.game_logic import GameLogic, Banker
 from game_of_greed.game_functions import Game_functions
 
 class Game(Game_functions):
-    """Class for Game of Greed application
+    """Class for Game of Greed application.
+    Inherits functionality from Game_functions class. 
     """
 
     def play_round(self):
         dice_count = 6
         print(f'Starting round {self.round_num}')
-        rolling = True
-        while rolling and (dice_count > 0):
-            print(f'Rolling {dice_count} dice...')
-            dice_roll = list(self.roller(dice_count))
-            self.print_roll(dice_roll)
+        
+        while dice_count > 0:
+            dice_roll, dice_count = self.roll_dice(dice_count)
             score = GameLogic.calculate_score(dice_roll)
             if score == 0:
-                print('****************************************')
-                print('**        Zilch!!! Round over         **')
-                print('****************************************')
-                print(f'You banked 0 points in round {self.round_num}')
-                print(f'Total score is {self.banker.balance} points')
+                self.print_zilcher()
                 return
                     
             print('Enter dice to keep, or (q)uit:')
@@ -45,10 +40,7 @@ class Game(Game_functions):
                     return
 
             if user_input.isnumeric():
-                score = GameLogic.calculate_score(list(user_input))# list(user_input)
-                self.banker.shelf(score)
-                dice_count = self.calculate_remaining_dice(dice_roll, user_input, dice_count)
-                print(f'You have {self.banker.shelved} unbanked points and {dice_count} dice remaining')
+                dice_count = self.shelve_points_and_adjust_dice_count(dice_roll, user_input, dice_count)
                 print('(r)oll again, (b)ank your points or (q)uit:')
                 user_input = input('> ')
                 if user_input == 'q':

@@ -76,3 +76,23 @@ class Game_functions:
           if str(die) in user_input:
               dice_count -= 1
       return dice_count
+    
+    def print_zilcher(self):
+        print('****************************************')
+        print('**        Zilch!!! Round over         **')
+        print('****************************************')
+        print(f'You banked 0 points in round {self.round_num}')
+        print(f'Total score is {self.banker.balance} points')
+        
+    def roll_dice(self, dice_count):
+        print(f'Rolling {dice_count} dice...')
+        dice_roll = list(self.roller(dice_count))
+        self.print_roll(dice_roll)
+        return dice_roll, dice_count
+      
+    def shelve_points_and_adjust_dice_count(self, dice_roll, user_input, dice_count):
+        score = GameLogic.calculate_score(list(user_input))
+        self.banker.shelf(score)
+        dice_count = self.calculate_remaining_dice(dice_roll, user_input, dice_count)
+        print(f'You have {self.banker.shelved} unbanked points and {dice_count} dice remaining')
+        return dice_count
