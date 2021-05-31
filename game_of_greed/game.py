@@ -10,11 +10,13 @@ class Game(Game_functions):
     """
 
     def play_round(self):
-        dice_count = 6
+        """a series of steps that dictate what happens during one round of gameplay.
+        """
+        self.dice_count = 6
         print(f'Starting round {self.round_num}')
         
-        while dice_count > 0:
-            dice_roll, dice_count = self.roll_dice(dice_count)
+        while self.dice_count > 0:
+            dice_roll = self.roll_some_dice()
             score = GameLogic.calculate_score(dice_roll)
             if score == 0:
                 self.print_zilcher()
@@ -40,7 +42,7 @@ class Game(Game_functions):
                     return
 
             if user_input.isnumeric():
-                dice_count = self.shelve_points_and_adjust_dice_count(dice_roll, user_input, dice_count)
+                self.shelve_points_and_adjust_dice_count(dice_roll, user_input)
                 print('(r)oll again, (b)ank your points or (q)uit:')
                 user_input = input('> ')
                 if user_input == 'q':
