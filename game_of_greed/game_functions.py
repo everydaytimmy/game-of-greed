@@ -80,15 +80,15 @@ class Game_functions:
         print(f'*** {string_roll} ***')
         
     def calculate_remaining_dice(self, dice_roll, user_input):
-      """Adjusts the number of dice available for the next roll.
+        """Adjusts the number of dice available for the next roll.
 
-      Args:
-          dice_roll (list): a list of dice that were rolled. values of 1-6.
-          user_input (string): a string of numbers representing that the user has decided to keep.
-      """
-      for die in dice_roll:
-          if str(die) in user_input:
-              self.dice_count -= 1
+        Args:
+            dice_roll (list): a list of dice that were rolled. values of 1-6.
+            user_input (string): a string of numbers representing that the user has decided to keep.
+        """
+        for die in dice_roll:
+            if str(die) in user_input:
+                self.dice_count -= 1
     
     def print_zilcher(self):
         """
@@ -100,7 +100,7 @@ class Game_functions:
         print(f'You banked 0 points in round {self.round_num}')
         print(f'Total score is {self.banker.balance} points')
         
-    def roll_some_dice(self):
+    def roll_the_dice(self):
         """Rolls dice available and prints a message to the user showing them what was rolled.
 
         Returns:
@@ -110,7 +110,7 @@ class Game_functions:
         dice_roll = list(self.roller(self.dice_count))
         self.print_roll(dice_roll)
         return dice_roll
-      
+        
     def shelve_points_and_adjust_dice_count(self, dice_roll, user_input):
         """Calculates the score value of dice that the user has decided to keep, shelves the score, and calculates the remaining dice.
 
@@ -122,3 +122,5 @@ class Game_functions:
         self.banker.shelf(score)
         self.calculate_remaining_dice(dice_roll, user_input)
         print(f'You have {self.banker.shelved} unbanked points and {self.dice_count} dice remaining')
+        
+    
