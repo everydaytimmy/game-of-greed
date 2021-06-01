@@ -52,21 +52,16 @@ class GameLogic:
   """this class handles the scoring logic and logic related to scoring.
   """
 
-  def roll_dice(dice):
+  def roll_dice(num_dice):
     """generates a random number between 1 and 6 for a given number of dice.
 
     Args:
         dice (int): the number of dice to be rolled.
 
     Returns:
-        [tuple]: returns the simulated rolls for the given number of dice.
+        [list]: returns the simulated rolls for the given number of dice.
     """
-    total = []
-    while dice > 0:
-      roll = random.randint(1, 6)
-      total.append(roll)
-      dice -= 1
-    return tuple(total)
+    return [random.randint(1,6) for _ in range(0, num_dice)]
 
   @staticmethod
   def calculate_score(dice):
@@ -78,26 +73,19 @@ class GameLogic:
     Returns:
         [int]: returns the calculated score of a dice roll.
     """
-    counter = 0
     occurrences = {num: dice.count(num) for num in dice}
-
 
     # first, check for special cases
     if sorted(dice) == [1,2,3,4,5,6]:
-      counter += scoresheet['special']['straight']
-      return counter
+      return scoresheet['special']['straight']
 
     keys = list(occurrences.keys())
-    if len(keys) == 3:
+    if len(occurrences) == 3:
       if (occurrences[keys[0]] == 2) and (occurrences[keys[1]] == 2) and (occurrences[keys[2]] == 2):
-        counter += scoresheet['special']['three pair']
-        return counter
+        return scoresheet['special']['three pair']
 
     # then check for regular scores
-    for num in occurrences:
-      counter += scoresheet[str(num)][str(occurrences[num])]
-
-    return counter
+    return sum([scoresheet[str(num)][str(occurrences[num])] for num in occurrences])
 
   @staticmethod
   def get_scorers(dice):
@@ -139,8 +127,21 @@ class GameLogic:
     """
     
     for num in keepers:
-      if str(num).isnumeric():
+      if num:
         if keepers.count(num) > roll.count(int(num)):
           return False
 
     return True
+
+  @staticmethod
+  def check_for_special_roll(dice):
+    occurrences = {num: dice.count(num) for num in dice}
+    
+    keys = list(occurrences.keys())
+    if isinstance(keys, list):
+      if len(keys) == 3:
+        if (occurrences[keys[0]] == 2) and (occurrences[keys[1]] == 2) and (occurrences[keys[2]] == 2):
+          return 'three pair'
+
+    if (isinstance(keys, int)) and (len(occurrences[str(keys)]) == 6):
+      return 'six of a kind'
