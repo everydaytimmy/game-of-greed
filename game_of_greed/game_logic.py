@@ -79,11 +79,8 @@ class GameLogic:
         [int]: returns the calculated score of a dice roll.
     """
     counter = 0
-    occurrences = {}
+    occurrences = {num: dice.count(num) for num in dice}
 
-    for num in dice:
-      times_rolled = dice.count(num)
-      occurrences[num] = times_rolled
 
     # first, check for special cases
     if sorted(dice) == [1,2,3,4,5,6]:
@@ -113,11 +110,7 @@ class GameLogic:
         [tuple, string]: by default returns a tuple of numbers representing the dice that do score,
         and returns a string if the scoring dice are a special category of roll.
     """
-    occurrences = {}
-    
-    for num in dice:
-      times_rolled = dice.count(num)
-      occurrences[num] = times_rolled
+    occurrences = {num: dice.count(num) for num in dice}
       
     scoring_dice = [num for num in occurrences if scoresheet[str(num)][str(occurrences[num])]]
 
@@ -130,7 +123,7 @@ class GameLogic:
     if (isinstance(keys, int)) and (len(occurrences[str(keys)]) == 6):
       return 'six of a kind'
       
-    return tuple(scoring_dice)
+    return scoring_dice
 
   @staticmethod
   def validate_keepers(roll, keepers):
