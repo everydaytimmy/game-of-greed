@@ -101,15 +101,6 @@ class GameLogic:
     occurrences = {num: dice.count(num) for num in dice}
       
     scoring_dice = [num for num in occurrences if scoresheet[str(num)][str(occurrences[num])]]
-
-    keys = list(occurrences.keys())
-    if isinstance(keys, list):
-      if len(keys) == 3:
-        if (occurrences[keys[0]] == 2) and (occurrences[keys[1]] == 2) and (occurrences[keys[2]] == 2):
-          return 'three pair'
-
-    if (isinstance(keys, int)) and (len(occurrences[str(keys)]) == 6):
-      return 'six of a kind'
       
     return scoring_dice
 
@@ -133,15 +124,3 @@ class GameLogic:
 
     return True
 
-  @staticmethod
-  def check_for_special_roll(dice):
-    occurrences = {num: dice.count(num) for num in dice}
-    
-    keys = list(occurrences.keys())
-    if isinstance(keys, list):
-      if len(keys) == 3:
-        if (occurrences[keys[0]] == 2) and (occurrences[keys[1]] == 2) and (occurrences[keys[2]] == 2):
-          return 'three pair'
-
-    if (isinstance(keys, int)) and (len(occurrences[str(keys)]) == 6):
-      return 'six of a kind'

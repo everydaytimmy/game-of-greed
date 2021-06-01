@@ -22,27 +22,13 @@ class Game(Game_functions):
                     
             print('Enter dice to keep, or (q)uit:')
             user_input = self.validate_user_input(dice_roll)
-            roll_is_special = GameLogic.check_for_special_roll(dice_roll)
-            
-            if roll_is_special:
-                self.hot_dice(dice_roll)
-                print('(r)oll again, (b)ank your points or (q)uit:')
-                user_input = input('> ')
-                
-                if user_input == 'q':
-                    self.quit_game()
-                
-                if user_input == 'r':
-                    continue
-                
-                if user_input == 'b':
-                    self.bank_points()
-                    return
-
             if user_input.isnumeric():
                 self.shelve_points_and_adjust_dice_count(dice_roll, user_input)
                 print('(r)oll again, (b)ank your points or (q)uit:')
                 user_input = input('> ')
+                
+                if self.dice_count == 0:
+                    self.dice_count = 6
                 
                 if user_input == 'q':
                     self.quit_game()
