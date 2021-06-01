@@ -53,19 +53,6 @@ class Game_functions:
             is_valid = GameLogic.validate_keepers(dice_roll, list(user_input))
             if is_valid:
                 return user_input
-
-    def hot_dice(self, dice_roll):
-        """ if the dice roll is either 3 pair, a straight, or six of a kind, that means the user has hot dice and
-        gets to choose if they want to reroll with 6 fresh dice, or bank the points they just got. the points are automatically shelved.
-
-        Args:
-            dice_roll (list): dice roll is the face number of each die that was rolled
-        """
-        self.dice_count = 0
-        score = GameLogic.calculate_score(dice_roll)
-        self.banker.shelf(score)
-        print(f'You have {self.banker.shelved} unbanked points and {self.dice_count} dice remaining')
-        self.dice_count = 6
         
     def print_roll(self, roll):
         """Prints the dice that were rolled
