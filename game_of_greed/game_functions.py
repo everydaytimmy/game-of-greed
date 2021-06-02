@@ -38,9 +38,8 @@ class Game_functions:
 
         user_input = input('> ').replace(' ', '')
         if user_input == 'q':
-            print(f'Thanks for playing. You earned {self.banker.balance} points')
-            sys.exit()
-            
+            self.quit_game()
+        
         is_valid = GameLogic.validate_keepers(dice_roll, list(user_input))
         if is_valid:
             return user_input
@@ -86,6 +85,7 @@ class Game_functions:
         print('****************************************')
         print(f'You banked 0 points in round {self.round_num}')
         print(f'Total score is {self.banker.balance} points')
+        self.banker.clear_shelf()
         
     def roll_the_dice(self):
         """Rolls dice available and prints a message to the user showing them what was rolled.
