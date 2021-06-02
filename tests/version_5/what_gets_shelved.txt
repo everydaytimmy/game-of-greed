@@ -1,0 +1,10 @@
+Welcome to Game of Greed
+(y)es to play or (n)o to decline
+> y
+Starting round 1
+Rolling 6 dice...
+*** 1 6 6 6 6 6 ***
+Enter dice to keep, or (q)uit:
+> 1
+You have 100 unbanked points and 5 dice remaining
+(r)oll again, (b)ank your points or (q)uit:
